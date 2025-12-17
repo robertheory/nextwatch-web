@@ -14,7 +14,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
           <nav className='ml-auto flex items-center gap-4'>
             <Link
-              href='/my-shows'
+              href='/shows'
               className='text-sm font-medium text-muted-foreground transition-colors hover:text-foreground'
             >
               My Shows
