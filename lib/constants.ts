@@ -4,3 +4,5 @@ export enum ShowStatus {
   FINISHED,
   UNTRACKED,
 }
+
+export type Statuses = keyof typeof ShowStatus;

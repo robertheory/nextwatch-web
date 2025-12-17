@@ -1,4 +1,4 @@
-export type Statuses = 'NOT_STARTED' | 'WATCHING' | 'COMPLETED';
+import { Statuses } from '@/lib/constants';
 
 export type Show = {
   id: number;

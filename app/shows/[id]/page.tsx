@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
 
   const showPreferences = await nextWatchApi.getShowById(Number(id));
 
-  const status = showPreferences?.status ?? ShowStatus.UNTRACKED;
+  const status = showPreferences?.status || null;
 
   return (
     <main className='container mx-auto py-8'>
@@ -60,7 +60,8 @@ export default async function Page({ params }: Props) {
               <div>
                 <CardTitle>{show.name}</CardTitle>
                 <CardDescription>
-                  {show.status} • {show.language} • {show.genres.join(', ')}
+                  {show.status || ShowStatus.UNTRACKED} • {show.language} •{' '}
+                  {show.genres.join(', ')}
                 </CardDescription>
                 <div className='mt-2 text-sm text-muted-foreground'>
                   Premiered: {show.premiered ?? '—'}

@@ -1,5 +1,6 @@
 import { Show } from '@/types';
 import { defaultHeaders } from '.';
+import { Statuses } from '../constants';
 
 const BASE_URL = process.env.API_URL || 'http://localhost:3333';
 
@@ -24,20 +25,21 @@ const fetchShows = async (status?: string): Promise<Show[]> => {
   return response.json();
 }
 
-const getShowById = async (showId: number): Promise<Show> => {
+const getShowById = async (showId: number): Promise<Show | null> => {
   const response = await fetch(`${NEXTWATCH_API.SHOWS}/${showId}`, {
     headers: defaultHeaders
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch show');
+    return null;
   }
+
   return response.json();
 }
 
 type CreateShowData = {
   showId: number;
-  status?: string;
+  status?: Statuses;
 };
 
 const registerShow = async (showData: CreateShowData): Promise<Show> => {
