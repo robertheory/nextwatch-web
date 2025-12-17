@@ -2,6 +2,7 @@
 
 import { searchShows } from '@/lib/tvmaze-api';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -120,18 +121,11 @@ const Searchbar: React.FC = () => {
 
           {!loading &&
             results.map((r) => (
-              <button
+              <Link
                 key={r.show.id}
+                href={`/shows/${r.show.id}`}
+                passHref
                 className='flex w-full gap-2 items-center px-2 py-1.5 text-left hover:bg-accent/5 rounded'
-                onClick={() => {
-                  if (r.show.id) {
-                    window.open(
-                      `https://www.tvmaze.com/shows/${r.show.id}`,
-                      '_blank'
-                    );
-                  }
-                  setOpen(false);
-                }}
                 type='button'
               >
                 <div className='relative h-10 w-16 shrink-0 overflow-hidden rounded-sm bg-muted'>
@@ -157,7 +151,7 @@ const Searchbar: React.FC = () => {
                       : '–'}
                   </span>
                 </div>
-              </button>
+              </Link>
             ))}
         </PopoverContent>
       </Popover>
