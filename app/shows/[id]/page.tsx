@@ -1,4 +1,5 @@
 import EpisodesList from '@/components/EpisodesList';
+import EraseShow from '@/components/Shows/EraseShow';
 import ShowStatusSelector from '@/components/Shows/ShowStatusSelector';
 import { Button } from '@/components/ui/button';
 import {
@@ -57,7 +58,7 @@ export default async function Page({ params }: Props) {
                 )}
               </div>
 
-              <div>
+              <div className='flex-1 relative'>
                 <CardTitle>{show.name}</CardTitle>
                 <CardDescription>
                   {show.status || ShowStatus.UNTRACKED} • {show.language} •{' '}
@@ -71,6 +72,10 @@ export default async function Page({ params }: Props) {
                     showId={Number(id)}
                     currentStatus={status}
                   />
+                </div>
+
+                <div className='absolute right-0 top-0'>
+                  <EraseShow showId={Number(id)} />
                 </div>
               </div>
             </div>
