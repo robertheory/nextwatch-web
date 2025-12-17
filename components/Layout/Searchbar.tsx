@@ -1,6 +1,6 @@
 'use client';
 
-import { searchShows } from '@/lib/tvmaze-api';
+import { tvMazeApi } from '@/lib/tvmaze-api';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
@@ -38,7 +38,7 @@ const Searchbar: React.FC = () => {
     }
     setLoading(true);
     try {
-      const res = await searchShows(trimmed);
+      const res = await tvMazeApi.searchShows(trimmed);
       // ensure input hasn't changed since we started the request
       if (inputRef.current?.value.trim() !== trimmed) return;
       setResults(res);

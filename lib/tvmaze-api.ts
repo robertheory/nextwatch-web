@@ -2,13 +2,13 @@ import { TVMazeSearchResult, TVMazeShow } from '../types/tvmaze';
 
 const BASE_URL = process.env.TVMAZE_API_URL || 'https://api.tvmaze.com';
 
-export const TVMAZE_API = {
+const TVMAZE_API = {
   BASE_URL,
   SHOWS: `${BASE_URL}/shows`,
   SEARCH: `${BASE_URL}/search/shows`,
 };
 
-export const searchShows = async (query: string): Promise<TVMazeSearchResult[]> => {
+const searchShows = async (query: string): Promise<TVMazeSearchResult[]> => {
   const url = new URL(TVMAZE_API.SEARCH);
 
   url.searchParams.append('q', query);
@@ -23,7 +23,7 @@ export const searchShows = async (query: string): Promise<TVMazeSearchResult[]> 
   return data;
 };
 
-export const fetchShowByTvMazeId = async (tvMazeId: number): Promise<TVMazeShow> => {
+const fetchShowByTvMazeId = async (tvMazeId: number): Promise<TVMazeShow> => {
   const response = await fetch(`${TVMAZE_API.SHOWS}/${tvMazeId}`);
 
   if (!response.ok) {

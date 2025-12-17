@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { fetchShowByTvMazeId } from '@/lib/tvmaze-api';
+import { tvMazeApi } from '@/lib/tvmaze-api';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -21,7 +21,7 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
-  const show = await fetchShowByTvMazeId(Number(id));
+  const show = await tvMazeApi.fetchShowByTvMazeId(Number(id));
 
   if (!show) notFound();
 
