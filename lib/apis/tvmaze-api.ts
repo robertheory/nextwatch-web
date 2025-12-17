@@ -1,4 +1,4 @@
-import { TVMazeEpisode, TVMazeSearchResult, TVMazeShow } from '../types/tvmaze';
+import { TVMazeEpisode, TVMazeSearchResult, TVMazeShow } from '../../types/tvmaze';
 
 const BASE_URL = process.env.TVMAZE_API_URL || 'https://api.tvmaze.com';
 

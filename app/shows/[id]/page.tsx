@@ -9,9 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { nextWatchApi } from '@/lib/apis/nextwatch-api';
+import { tvMazeApi } from '@/lib/apis/tvmaze-api';
 import { ShowStatus } from '@/lib/constants';
-import { nextWatchApi } from '@/lib/nextwatch-api';
-import { tvMazeApi } from '@/lib/tvmaze-api';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

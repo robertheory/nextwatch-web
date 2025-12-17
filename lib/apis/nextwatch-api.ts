@@ -1,4 +1,5 @@
 import { Show } from '@/types';
+import { defaultHeaders } from '.';
 
 const BASE_URL = process.env.API_URL || 'http://localhost:3333';
 
@@ -13,7 +14,10 @@ const fetchShows = async (status?: string): Promise<Show[]> => {
     url.searchParams.append('status', status);
   }
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    headers: defaultHeaders
+  });
+
   if (!response.ok) {
     throw new Error('Failed to fetch shows');
   }
@@ -21,7 +25,10 @@ const fetchShows = async (status?: string): Promise<Show[]> => {
 }
 
 const getShowById = async (showId: number): Promise<Show> => {
-  const response = await fetch(`${NEXTWATCH_API.SHOWS}/${showId}`);
+  const response = await fetch(`${NEXTWATCH_API.SHOWS}/${showId}`, {
+    headers: defaultHeaders
+  });
+
   if (!response.ok) {
     throw new Error('Failed to fetch show');
   }
@@ -36,9 +43,7 @@ type CreateShowData = {
 const registerShow = async (showData: CreateShowData): Promise<Show> => {
   const response = await fetch(NEXTWATCH_API.SHOWS, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: defaultHeaders,
     body: JSON.stringify(showData),
   });
   if (!response.ok) {
@@ -50,6 +55,7 @@ const registerShow = async (showData: CreateShowData): Promise<Show> => {
 const removeShow = async (showId: number): Promise<void> => {
   const response = await fetch(`${NEXTWATCH_API.SHOWS}/${showId}`, {
     method: 'DELETE',
+    headers: defaultHeaders,
   });
 
   if (!response.ok) {
@@ -60,9 +66,7 @@ const removeShow = async (showId: number): Promise<void> => {
 const updateShowStatus = async (showId: number, status: string): Promise<Show> => {
   const response = await fetch(`${NEXTWATCH_API.SHOWS}/${showId}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: defaultHeaders,
     body: JSON.stringify({ status }),
   });
   if (!response.ok) {

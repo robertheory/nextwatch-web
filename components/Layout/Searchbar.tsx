@@ -1,6 +1,6 @@
 'use client';
 
-import { tvMazeApi } from '@/lib/tvmaze-api';
+import { tvMazeApi } from '@/lib/apis/tvmaze-api';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';

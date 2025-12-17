@@ -7,8 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { nextWatchApi } from '@/lib/apis/nextwatch-api';
 import { ShowStatus } from '@/lib/constants';
-import { nextWatchApi } from '@/lib/nextwatch-api';
 import { useState } from 'react';
 
 export default function ShowStatusSelector({
