@@ -82,3 +82,25 @@ export interface TVMazeSearchResult {
   score: number;
   show: TVMazeShow;
 }
+
+export interface TVMazeEpisodeLinks {
+  self: TVMazeLink;
+  show: TVMazeNamedLink;
+}
+
+export interface TVMazeEpisode {
+  id: number;
+  url: string;
+  name: string;
+  season: number;
+  number: number | null;
+  type: string;
+  airdate: string | null;
+  airtime: string | null;
+  airstamp: string | null;
+  runtime: number | null;
+  rating: TVMazeRating;
+  image: TVMazeImage | null;
+  summary: string | null;
+  _links: TVMazeEpisodeLinks;
+}

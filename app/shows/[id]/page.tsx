@@ -1,3 +1,4 @@
+import EpisodesList from '@/components/EpisodesList';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -25,9 +26,11 @@ export default async function Page({ params }: Props) {
 
   if (!show) notFound();
 
+  const episodes = await tvMazeApi.fetchShowEpisodes(Number(id));
+
   return (
     <main className='container mx-auto py-8'>
-      <div className='max-w-4xl mx-auto'>
+      <div className='max-w-4xl mx-auto space-y-6'>
         <Card>
           <CardHeader>
             <div className='flex items-start gap-4'>
@@ -109,6 +112,8 @@ export default async function Page({ params }: Props) {
             </div>
           </CardFooter>
         </Card>
+
+        <EpisodesList episodes={episodes} showId={Number(id)} />
       </div>
     </main>
   );
