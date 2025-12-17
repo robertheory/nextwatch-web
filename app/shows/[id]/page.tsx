@@ -1,4 +1,5 @@
 import EpisodesList from '@/components/EpisodesList';
+import ShowStatusSelector from '@/components/Shows/ShowStatusSelector';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -8,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { ShowStatus } from '@/lib/constants';
+import { nextWatchApi } from '@/lib/nextwatch-api';
 import { tvMazeApi } from '@/lib/tvmaze-api';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,6 +30,10 @@ export default async function Page({ params }: Props) {
   if (!show) notFound();
 
   const episodes = await tvMazeApi.fetchShowEpisodes(Number(id));
+
+  const showPreferences = await nextWatchApi.getShowById(Number(id));
+
+  const status = showPreferences?.status ?? ShowStatus.UNTRACKED;
 
   return (
     <main className='container mx-auto py-8'>
@@ -57,6 +64,12 @@ export default async function Page({ params }: Props) {
                 </CardDescription>
                 <div className='mt-2 text-sm text-muted-foreground'>
                   Premiered: {show.premiered ?? '—'}
+                </div>
+                <div className='mt-3'>
+                  <ShowStatusSelector
+                    showId={Number(id)}
+                    currentStatus={status}
+                  />
                 </div>
               </div>
             </div>

@@ -71,7 +71,7 @@ const updateShowStatus = async (showId: number, status: string): Promise<Show> =
   return response.json();
 }
 
-export const api = {
+export const nextWatchApi = {
   fetchShows,
   getShowById,
   registerShow,
