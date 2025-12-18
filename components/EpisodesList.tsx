@@ -3,7 +3,9 @@
 import { EpisodesBySeason } from '@/app/shows/[id]/page';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { nextWatchApi } from '@/lib/apis/nextwatch-api';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 export default function EpisodesList({
   episodes,
@@ -12,12 +14,61 @@ export default function EpisodesList({
   episodes: EpisodesBySeason;
   showId?: number;
 }) {
-  const handleMarkWatched = (episodeId: number) => {
-    // Implement mark watched functionality here
-    console.log(`Marking episode ${episodeId} as watched for show ${showId}`);
+  const [localEpisodes, setLocalEpisodes] =
+    useState<EpisodesBySeason>(episodes);
+  const [loadingMap, setLoadingMap] = useState<Record<number, boolean>>({});
+
+  useEffect(() => {
+    setLocalEpisodes(() => episodes);
+  }, [episodes]);
+
+  const setEpisodeWatchedAt = (
+    season: number,
+    episodeId: number,
+    watchedAt: string | null
+  ) => {
+    setLocalEpisodes((prev) => {
+      const next = { ...prev } as EpisodesBySeason;
+      next[season] = next[season].map((e) =>
+        e.id === episodeId
+          ? { ...e, watchedAt: watchedAt ? new Date(watchedAt) : null }
+          : e
+      );
+      return next;
+    });
   };
 
-  const seasons = Object.keys(episodes)
+  const setLoading = (episodeId: number, v: boolean) =>
+    setLoadingMap((prev) => ({ ...prev, [episodeId]: v }));
+
+  const handleMarkWatched = async (season: number, episodeId: number) => {
+    if (!showId) return;
+    setLoading(episodeId, true);
+    try {
+      const res = await nextWatchApi.markEpisodeAsWatched(showId, episodeId);
+      // assume API returns WatchedEpisode with watchedAt
+      setEpisodeWatchedAt(season, episodeId, res.watchedAt ? res.watchedAt.toISOString() : null);
+    } catch (err) {
+      console.error('Failed to mark watched', err);
+    } finally {
+      setLoading(episodeId, false);
+    }
+  };
+
+  const handleUnmarkWatched = async (season: number, episodeId: number) => {
+    if (!showId) return;
+    setLoading(episodeId, true);
+    try {
+      await nextWatchApi.unmarkEpisodeAsWatched(showId, episodeId);
+      setEpisodeWatchedAt(season, episodeId, null);
+    } catch (err) {
+      console.error('Failed to unmark watched', err);
+    } finally {
+      setLoading(episodeId, false);
+    }
+  };
+
+  const seasons = Object.keys(localEpisodes)
     .map((s) => Number(s))
     .sort((a, b) => a - b);
 
@@ -26,7 +77,7 @@ export default function EpisodesList({
       <h3 className='text-lg font-semibold mb-3'>Episodes</h3>
       <div className='space-y-6'>
         {seasons.map((season) => {
-          const eps = episodes[season] || [];
+          const eps = localEpisodes[season] || [];
           const epsSorted = eps
             .slice()
             .sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
@@ -35,8 +86,7 @@ export default function EpisodesList({
               <div className='flex items-center justify-between'>
                 <h4 className='text-md font-semibold'>Season {season}</h4>
                 <div className='text-sm text-muted-foreground'>
-                  {epsSorted.length} episode
-                  {epsSorted.length !== 1 ? 's' : ''}
+                  {epsSorted.length} episode{epsSorted.length !== 1 ? 's' : ''}
                 </div>
               </div>
 
@@ -70,17 +120,38 @@ export default function EpisodesList({
                               {ep.runtime ?? '—'}m • Rating:{' '}
                               {ep.rating?.average ?? '—'}
                             </div>
+                            {ep.watchedAt && (
+                              <div className='text-xs text-muted-foreground mt-1'>
+                                Watched:{' '}
+                                {new Date(ep.watchedAt).toLocaleString()}
+                              </div>
+                            )}
                           </div>
 
                           <div className='shrink-0'>
-                            <Button
-                              size='sm'
-                              variant='default'
-                              onClick={() => handleMarkWatched(ep.id)}
-                              type='button'
-                            >
-                              Mark watched
-                            </Button>
+                            {!ep.watchedAt ? (
+                              <Button
+                                size='sm'
+                                variant='default'
+                                onClick={() => handleMarkWatched(season, ep.id)}
+                                type='button'
+                                disabled={!!loadingMap[ep.id]}
+                              >
+                                {loadingMap[ep.id] ? '...' : 'Mark watched'}
+                              </Button>
+                            ) : (
+                              <Button
+                                size='sm'
+                                variant='secondary'
+                                onClick={() =>
+                                  handleUnmarkWatched(season, ep.id)
+                                }
+                                type='button'
+                                disabled={!!loadingMap[ep.id]}
+                              >
+                                {loadingMap[ep.id] ? '...' : 'Unwatch'}
+                              </Button>
+                            )}
                           </div>
                         </div>
 
