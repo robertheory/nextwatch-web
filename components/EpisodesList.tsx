@@ -1,15 +1,15 @@
 'use client';
 
+import { EpisodesBySeason } from '@/app/shows/[id]/page';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import type { TVMazeEpisode } from '@/types/tvmaze';
 import Image from 'next/image';
 
 export default function EpisodesList({
   episodes,
   showId,
 }: {
-  episodes: TVMazeEpisode[];
+  episodes: EpisodesBySeason;
   showId?: number;
 }) {
   const handleMarkWatched = (episodeId: number) => {
@@ -17,16 +17,7 @@ export default function EpisodesList({
     console.log(`Marking episode ${episodeId} as watched for show ${showId}`);
   };
 
-  const episodesGroupedBySeason = episodes.reduce((acc, episode) => {
-    const season = episode.season || 0;
-    if (!acc[season]) {
-      acc[season] = [];
-    }
-    acc[season].push(episode);
-    return acc;
-  }, {} as Record<number, TVMazeEpisode[]>);
-
-  const seasons = Object.keys(episodesGroupedBySeason)
+  const seasons = Object.keys(episodes)
     .map((s) => Number(s))
     .sort((a, b) => a - b);
 
@@ -35,7 +26,7 @@ export default function EpisodesList({
       <h3 className='text-lg font-semibold mb-3'>Episodes</h3>
       <div className='space-y-6'>
         {seasons.map((season) => {
-          const eps = episodesGroupedBySeason[season] || [];
+          const eps = episodes[season] || [];
           const epsSorted = eps
             .slice()
             .sort((a, b) => (a.number ?? 0) - (b.number ?? 0));

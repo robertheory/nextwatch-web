@@ -7,3 +7,10 @@ export type Show = {
   createdAt: string;
   updatedAt: string | null;
 };
+
+export type WatchedEpisode = {
+  id: number;
+  showId: number;
+  episodeId: number;
+  watchedAt: Date | null;
+}

@@ -13,11 +13,14 @@ import {
 import { nextWatchApi } from '@/lib/apis/nextwatch-api';
 import { tvMazeApi } from '@/lib/apis/tvmaze-api';
 import { ShowStatus } from '@/lib/constants';
+import { TVMazeEpisodeExtended } from '@/types/tvmaze';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 type Props = { params: Promise<{ id: string }> };
+
+export type EpisodesBySeason = Record<number, TVMazeEpisodeExtended[]>;
 
 export default async function Page({ params }: Props) {
   const { id } = await params;
@@ -30,7 +33,26 @@ export default async function Page({ params }: Props) {
 
   if (!show) notFound();
 
-  const episodes = await tvMazeApi.fetchShowEpisodes(Number(id));
+  const episodesData = await tvMazeApi.fetchShowEpisodes(Number(id));
+
+  const myWatchedEpisodes = await nextWatchApi.fetchWatcheds(Number(id));
+
+  const episodes = episodesData.reduce((acc, episode) => {
+    const season = episode.season || 0;
+    if (!acc[season]) {
+      acc[season] = [];
+    }
+
+    const watchedEpisode = myWatchedEpisodes.find(
+      (we) => we.episodeId === episode.id
+    );
+
+    acc[season].push({
+      ...episode,
+      watchedAt: watchedEpisode?.watchedAt || null,
+    });
+    return acc;
+  }, {} as EpisodesBySeason);
 
   const showPreferences = await nextWatchApi.getShowById(Number(id));
 

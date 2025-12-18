@@ -1,4 +1,4 @@
-import { Show } from '@/types';
+import { Show, WatchedEpisode } from '@/types';
 import { defaultHeaders } from '.';
 import { Statuses } from '../constants';
 
@@ -77,10 +77,54 @@ const updateShowStatus = async (showId: number, status: string): Promise<Show> =
   return response.json();
 }
 
+const fetchWatcheds = async (showId: number) => {
+  const response = await fetch(`${BASE_URL}/watched/${showId}`, {
+    method: 'GET',
+    headers: defaultHeaders,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to mark episode as watched');
+  }
+
+  const data = await response.json() as WatchedEpisode[];
+
+  return data;
+}
+
+const markEpisodeAsWatched = async (showId: number, episodeId: number) => {
+  const response = await fetch(`${BASE_URL}/watched/${showId}/${episodeId}`, {
+    method: 'POST',
+    headers: defaultHeaders,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to mark episode as watched');
+  }
+
+  const data = await response.json() as WatchedEpisode;
+
+  return data;
+}
+
+const unmarkEpisodeAsWatched = async (showId: number, episodeId: number) => {
+  const response = await fetch(`${BASE_URL}/watched/${showId}/${episodeId}`, {
+    method: 'DELETE',
+    headers: defaultHeaders,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to unmark episode as watched');
+  }
+}
+
 export const nextWatchApi = {
   fetchShows,
   getShowById,
   registerShow,
   removeShow,
   updateShowStatus,
+  fetchWatcheds,
+  markEpisodeAsWatched,
+  unmarkEpisodeAsWatched,
 };

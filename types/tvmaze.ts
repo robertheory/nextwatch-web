@@ -104,3 +104,7 @@ export interface TVMazeEpisode {
   summary: string | null;
   _links: TVMazeEpisodeLinks;
 }
+
+export interface TVMazeEpisodeExtended extends TVMazeEpisode {
+  watchedAt: Date | null;
+}
