@@ -12,5 +12,5 @@ export type WatchedEpisode = {
   id: number;
   showId: number;
   episodeId: number;
-  watchedAt: Date | null;
+  watchedAt: string | null;
 }

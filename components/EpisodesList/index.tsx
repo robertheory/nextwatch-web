@@ -30,9 +30,7 @@ export default function EpisodesList({
     setLocalEpisodes((prev) => {
       const next = { ...prev } as EpisodesBySeason;
       next[season] = next[season].map((e) =>
-        e.id === episodeId
-          ? { ...e, watchedAt: watchedAt ? new Date(watchedAt) : null }
-          : e
+        e.id === episodeId ? { ...e, watchedAt } : e
       );
       return next;
     });
@@ -47,7 +45,11 @@ export default function EpisodesList({
     try {
       const res = await nextWatchApi.markEpisodeAsWatched(showId, episodeId);
       // assume API returns WatchedEpisode with watchedAt
-      setEpisodeWatchedAt(season, episodeId, res.watchedAt ? res.watchedAt.toISOString() : null);
+      setEpisodeWatchedAt(
+        season,
+        episodeId,
+        res.watchedAt ? res.watchedAt : null
+      );
     } catch (err) {
       console.error('Failed to mark watched', err);
     } finally {

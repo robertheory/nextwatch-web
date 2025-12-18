@@ -73,6 +73,7 @@ const MyShows = async () => {
 
             <CardContent>
               <p
+                suppressHydrationWarning
                 className='text-sm text-muted-foreground line-clamp-3'
                 dangerouslySetInnerHTML={{ __html: remote.summary ?? '' }}
               />

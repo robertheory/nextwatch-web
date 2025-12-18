@@ -106,5 +106,5 @@ export interface TVMazeEpisode {
 }
 
 export interface TVMazeEpisodeExtended extends TVMazeEpisode {
-  watchedAt: Date | null;
+  watchedAt: string | null;
 }

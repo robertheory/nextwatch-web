@@ -18,7 +18,6 @@ export default function ShowStatusSelector({
   showId: number;
   currentStatus: Statuses | null;
 }) {
-  console.log('currentStatus', currentStatus);
   const enumKeys = Object.keys(ShowStatus).filter((k) => isNaN(Number(k)));
 
   const displayMap: Record<Statuses, string> = {
