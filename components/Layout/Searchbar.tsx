@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { tvMazeApi } from '@/lib/apis/tvmaze-api';
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
@@ -130,7 +130,7 @@ const Searchbar: React.FC = () => {
               >
                 <div className='relative h-10 w-16 shrink-0 overflow-hidden rounded-sm bg-muted'>
                   {r.show.image ? (
-                    <Image
+                    <img
                       src={r.show.image.medium}
                       alt={r.show.name}
                       width={80}

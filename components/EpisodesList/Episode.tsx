@@ -1,10 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { nextWatchApi } from '@/lib/apis/nextwatch-api';
 import { TVMazeEpisodeExtended } from '@/types/tvmaze';
-import Image from 'next/image';
 import { useState } from 'react';
 
 export default function Episode({
@@ -60,7 +60,7 @@ export default function Episode({
       <div className='flex gap-3'>
         <div className='w-28 h-16 shrink-0 overflow-hidden rounded-sm bg-muted'>
           {ep.image ? (
-            <Image
+            <img
               src={ep.image.medium}
               alt={ep.name}
               width={160}

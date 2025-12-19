@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import EpisodesList from '@/components/EpisodesList';
 import EraseShow from '@/components/Shows/EraseShow';
 import ShowStatusSelector from '@/components/Shows/ShowStatusSelector';
@@ -14,7 +15,6 @@ import { nextWatchApi } from '@/lib/apis/nextwatch-api';
 import { tvMazeApi } from '@/lib/apis/tvmaze-api';
 import { ShowStatus } from '@/lib/constants';
 import { TVMazeEpisodeExtended } from '@/types/tvmaze';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -66,7 +66,7 @@ export default async function Page({ params }: Props) {
             <div className='flex items-start gap-4'>
               <div className='w-36 h-48 shrink-0 overflow-hidden rounded-md bg-muted'>
                 {show.image ? (
-                  <Image
+                  <img
                     src={show.image.original ?? show.image.medium}
                     alt={show.name}
                     width={360}
