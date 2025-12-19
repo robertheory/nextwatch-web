@@ -14,6 +14,8 @@ import { Show } from '@/types';
 import { TVMazeShow } from '@/types/tvmaze';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 interface ExtendedShow extends TVMazeShow {
   status: string;
 }
