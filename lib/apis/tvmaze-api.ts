@@ -1,6 +1,6 @@
 import { TVMazeEpisode, TVMazeSearchResult, TVMazeShow } from '../../types/tvmaze';
 
-const BASE_URL = process.env.TVMAZE_API_URL || 'https://api.tvmaze.com';
+const BASE_URL = process.env.NEXT_PUBLIC_TVMAZE_API || 'https://api.tvmaze.com';
 
 const TVMAZE_API = {
   BASE_URL,
