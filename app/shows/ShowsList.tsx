@@ -21,18 +21,28 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ShowStatus, Statuses } from '@/lib/constants';
+import { combineShowData } from '@/lib/formatting';
 import { useState } from 'react';
 import { ExtendedShow } from './page';
 
 type ShowsListProps = {
-  shows: ExtendedShow[];
+  data: ExtendedShow[];
+  status?: Statuses;
 };
 
-const ShowsList = ({ shows }: ShowsListProps) => {
-  const [statusFilter, setStatusFilter] = useState<Statuses | 'ALL'>('ALL');
+const ShowsList = ({ data, status }: ShowsListProps) => {
+  const [statusFilter, setStatusFilter] = useState<Statuses | 'ALL'>(
+    status ?? 'ALL'
+  );
+  const [shows, setShows] = useState<ExtendedShow[]>(data);
 
-  const handleUpdateStatusFilter = (value: string) => {
+  const handleUpdateStatusFilter = async (value: string) => {
     const newStatus = value as Statuses | 'ALL';
+
+    if (status !== newStatus) {
+      const newShowsData = await combineShowData();
+      setShows(newShowsData);
+    }
 
     setStatusFilter(newStatus);
   };
