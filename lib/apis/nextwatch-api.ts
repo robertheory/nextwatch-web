@@ -99,7 +99,7 @@ const removeShow = async (showId: number): Promise<void> => {
 const updateShowStatus = async (showId: number, status: string): Promise<Show> => {
   try {
     const response = await safeFetch(`${NEXTWATCH_API.SHOWS}/${showId}`, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: defaultHeaders,
       body: JSON.stringify({ status }),
     });
@@ -136,7 +136,7 @@ const fetchWatcheds = async (showId: number) => {
 const markEpisodeAsWatched = async (showId: number, episodeId: number) => {
   try {
     const response = await safeFetch(`${BASE_URL}/watched/${showId}/${episodeId}`, {
-      method: 'POST',
+      method: 'PATCH',
       headers: defaultHeaders,
     });
 
@@ -155,7 +155,7 @@ const markEpisodeAsWatched = async (showId: number, episodeId: number) => {
 const unmarkEpisodeAsWatched = async (showId: number, episodeId: number) => {
   try {
     const response = await safeFetch(`${BASE_URL}/watched/${showId}/${episodeId}`, {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: defaultHeaders,
     });
 
