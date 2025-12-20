@@ -19,10 +19,11 @@ const NEXTWATCH_API = {
   SHOWS: `${BASE_URL}/shows`,
 };
 
-const fetchShows = async (status?: string): Promise<Show[]> => {
+const fetchShows = async (status?: Statuses): Promise<Show[]> => {
   const url = new URL(NEXTWATCH_API.SHOWS);
+
   if (status) {
-    url.searchParams.append('status', status);
+    url.searchParams.append('status', String(status));
   }
 
   try {
