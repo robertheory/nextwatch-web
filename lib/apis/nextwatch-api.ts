@@ -137,7 +137,7 @@ const fetchWatcheds = async (showId: number) => {
 const markEpisodeAsWatched = async (showId: number, episodeId: number) => {
   try {
     const response = await safeFetch(`${BASE_URL}/watched/${showId}/${episodeId}`, {
-      method: 'PATCH',
+      method: 'POST',
       headers: defaultHeaders,
     });
 
